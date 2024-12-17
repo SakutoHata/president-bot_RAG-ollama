@@ -32,9 +32,11 @@ Dockerコンテナを用いて、Ubuntu環境にて実行可能な構成とな�
         │   └── motions/
         │       └── vrma/
         │           └── 対象VRモデル用アニメーション×4（VRMAファイル形式 4つ配置）
-        └── .env
+        └── .env (※2 については必ず記載し格納すること)
     ```
     ※1 [URL](https://www.promptingguide.ai/models/gemma)
+
+    ※2 *FILE_PATH="/workspaces/president-bot_RAG-ollama"*
 
 ### 2. VsCodeにてDocker環境を構築
 1. 導入済みのDocker Desktopを起動させて下さい。
@@ -66,9 +68,21 @@ ollama pull schroneko/gemma-2-2b-jpn-it
 
 - 初回以降の場合<br>
     1. Docker Desktopを立ち上げ、対象のコンテナを起動して下さい。
-    2. VsCodeから該当コンテナに入って下さい。
-    3. 以下のコマンドをターミナルで実行してください。
+
+    2. 各方法からアプリを起動させて下さい。
+    - VsCodeの場合<br>
+        1. 該当コンテナに入って下さい。
+        2. 以下のコマンドをターミナルで実行してください。
+            ```
+            cd ../../usr/bin && ./ollama serve &
+            python3 main.py
+            ```
+    - Ubuntuの場合<br>
+        以下のコマンドを実行してください。
         ```
-        cd ../../usr/bin && ./ollama serve &
+        docker exec -d ＜コンテナ名＞ /bin/bash
+        cd /usr/bin
+        ollama serve &
+        cd ../../workspaces/president-bot_RAG-ollama
         python3 main.py
         ```
