@@ -53,7 +53,10 @@ ollama serve
 ```
 cd ../../usr/bin
 ollama pull mxbai-embed-large
+ollama pull snowflake-arctic-embed2
 ollama pull schroneko/gemma-2-2b-jpn-it
+ollama pull hf.co/dahara1/gemma-2-2b-jpn-it-gguf-japanese-imatrix:Q3_K_L
+ollama pull hf.co/dahara1/gemma-2-2b-jpn-it-gguf-japanese-imatrix:Q8_0_L
 ```
 ### 4. アプリの起動
 各ケースに沿った対応をして下さい。

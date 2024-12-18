@@ -5,6 +5,7 @@ from langchain.callbacks.manager import CallbackManager
 from langchain_core.output_parsers import StrOutputParser
 from langchain_community.vectorstores import FAISS
 from langchain_ollama import OllamaEmbeddings, OllamaLLM
+from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate, MessagesPlaceholder
 from langchain_community.document_loaders.csv_loader import CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -17,17 +18,19 @@ from dotenv import load_dotenv
 load_dotenv()
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 # 埋め込みモデルとLLMの設定
-embeddings = OllamaEmbeddings(model="mxbai-embed-large") # "mxbai-embed-large"
+## Ollamaのモデルを使う場合
+# embeddings = OllamaEmbeddings(model="snowflake-arctic-embed2:latest") # "mxbai-embed-large" "snowflake-arctic-embed2:latest"
+## Huggingfaceのモデルを使う場合
+embeddings = HuggingFaceEmbeddings(model_name="pkshatech/GLuCoSE-base-ja")
+
 """
 model_name
 
 ・schroneko/gemma-2-2b-jpn-it:latest
-・hf.co/william-efstratis/Mistral-Nemo-Instruct-2407-Q4_0-GGUF
-・hf.co/team-hatakeyama-phase2/Tanuki-8B-dpo-v1.0-GGUF:Q6_K
-・hf.co/team-hatakeyama-phase2/Tanuki-8B-dpo-v1.0-GGUF:Q4_K_M
-・hf.co/team-hatakeyama-phase2/Tanuki-8B-dpo-v1.0-GGUF:IQ4_XS
+・hf.co/dahara1/gemma-2-2b-jpn-it-gguf-japanese-imatrix:Q8_0_L  ← 個人的にはこちらがオススメ
+・hf.co/dahara1/gemma-2-2b-jpn-it-gguf-japanese-imatrix:Q3_K_L
 """
-llm = Ollama(model="schroneko/gemma-2-2b-jpn-it:latest", callbacks=callback_manager) # model変数はmodel_nameを例に指定してください。
+llm = Ollama(model="hf.co/dahara1/gemma-2-2b-jpn-it-gguf-japanese-imatrix:Q3_K_L", callbacks=callback_manager) # model変数はmodel_nameを例に指定してください。
 FILE_PATH = os.environ["FILE_PATH"]
 
 # FAISSインデックスの読み込みまたは作成
@@ -51,7 +54,7 @@ def rag(user_query):
     contents = [re.search(r"Contents:\s*(.*)", doc.page_content).group(1) for doc in docs if re.search(r"Contents:\s*(.*)", doc.page_content)]
     contents = [item.replace("\u3000", "") for item in contents]
     context = [item.replace("〽", "") for item in contents]
-    #print(f"context： \n{context}")
+    print(f"context： \n{context}")
 
     # 参照するPromptのテンプレートを指定
     """
