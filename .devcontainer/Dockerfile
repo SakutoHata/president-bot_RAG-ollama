@@ -17,6 +17,9 @@ RUN apt-get update && apt-get install -y \
     gir1.2-gtk-3.0 \
     python3-gi \
     python3-gi-cairo \
+    nano \
+    vim \
+    lsof \
     && add-apt-repository ppa:deadsnakes/ppa \
     && apt-get update && apt-get install -y \
     python3.9 \

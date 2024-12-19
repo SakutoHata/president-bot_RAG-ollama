@@ -19,7 +19,7 @@ load_dotenv()
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 # 埋め込みモデルとLLMの設定
 ## Ollamaのモデルを使う場合
-# embeddings = OllamaEmbeddings(model="snowflake-arctic-embed2:latest") # "mxbai-embed-large" "snowflake-arctic-embed2:latest"
+# embeddings = OllamaEmbeddings(model="mxbai-embed-large") # "mxbai-embed-large" "snowflake-arctic-embed2:latest"
 ## Huggingfaceのモデルを使う場合
 embeddings = HuggingFaceEmbeddings(model_name="pkshatech/GLuCoSE-base-ja")
 
@@ -29,8 +29,9 @@ model_name
 ・schroneko/gemma-2-2b-jpn-it:latest
 ・hf.co/dahara1/gemma-2-2b-jpn-it-gguf-japanese-imatrix:Q8_0_L  ← 個人的にはこちらがオススメ
 ・hf.co/dahara1/gemma-2-2b-jpn-it-gguf-japanese-imatrix:Q3_K_L
+・hf.co/dahara1/gemma-2-2b-jpn-it-gguf-japanese-imatrix:Q4_K_L
 """
-llm = Ollama(model="hf.co/dahara1/gemma-2-2b-jpn-it-gguf-japanese-imatrix:Q3_K_L", callbacks=callback_manager) # model変数はmodel_nameを例に指定してください。
+llm = Ollama(model="hf.co/dahara1/gemma-2-2b-jpn-it-gguf-japanese-imatrix:Q4_K_L", callbacks=callback_manager) # model変数はmodel_nameを例に指定してください。
 FILE_PATH = os.environ["FILE_PATH"]
 
 # FAISSインデックスの読み込みまたは作成
